@@ -9,6 +9,7 @@ import PrivateRoute from './components/shared/PrivateRoute';
 import { useEffect } from 'react';
 import { getActiveUser } from "./store/activeUser";
 import store from './store';
+import MyGalleries from './containers/MyGalleries';
 
 function App() {
   useEffect(() => {
@@ -33,6 +34,9 @@ function App() {
           <GuestRoute exact path="/login">
             <Login />
           </GuestRoute>
+          <PrivateRoute exact path="/my-galleries">
+            <MyGalleries />
+          </PrivateRoute>
         </Switch>
       </Router>
     </div>
