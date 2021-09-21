@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
+import { Link } from 'react-router-dom';
 import galleriesService from "../services/GalleriesService";
 
 function AppGalleries() {
@@ -8,7 +9,7 @@ function AppGalleries() {
   useEffect(() => {
     const fetchGalleries = async () => {
       const data = await galleriesService.getAll();
-
+      console.log(data)
       setGalleries(data);
     }
 
@@ -17,11 +18,13 @@ function AppGalleries() {
 
   return (
     <div>
-      <ul>
+    {galleries.length ? <ul>
         {galleries.map((gallery) => (
-          <li key={gallery.id}>{gallery.title}</li>
+          <li key={gallery.id}><Link to={`/galleries/${gallery.id}`}>{gallery.title} <img src={gallery.images.length ? gallery.images[0].imageUrl : ''}/></Link></li>
         ))}
-      </ul>
+      </ul> : ''
+    }
+      
     </div>
   )
 }

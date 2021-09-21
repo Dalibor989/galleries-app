@@ -26,6 +26,9 @@ function NavBar() {
         <h5><Link to="/my-galleries">My Galleries</Link></h5>
       )}
       {isAuthenticated && (
+        <h5><Link to="/create">Create Galleries</Link></h5>
+      )}
+      {isAuthenticated && (
         <button className="btn btn-primary" onClick={handleLogout}>Logout</button>
       )}
     </nav>

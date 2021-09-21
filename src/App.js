@@ -9,7 +9,8 @@ import PrivateRoute from './components/shared/PrivateRoute';
 import { useEffect } from 'react';
 import { getActiveUser } from "./store/activeUser";
 import store from './store';
-import MyGalleries from './containers/MyGalleries';
+import ViewGallery from './containers/ViewGallery';
+import CreateGallery from './containers/CreateGallery';
 
 function App() {
   useEffect(() => {
@@ -34,8 +35,14 @@ function App() {
           <GuestRoute exact path="/login">
             <Login />
           </GuestRoute>
-          <PrivateRoute exact path="/my-galleries">
+          {/* <PrivateRoute exact path="/my-galleries">
             <MyGalleries />
+          </PrivateRoute> */}
+          <PrivateRoute exact path="/galleries/:id">
+            <ViewGallery />
+          </PrivateRoute>
+          <PrivateRoute exact path="/create">
+            <CreateGallery />
           </PrivateRoute>
         </Switch>
       </Router>
