@@ -3,8 +3,22 @@ import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import AppGalleries from './containers/AppGalleries';
 import NavBar from './components/NavBar';
 import Register from './containers/Register';
+import Login from './containers/Login';
+import GuestRoute from './components/shared/GuestRoute';
+import PrivateRoute from './components/shared/PrivateRoute';
+import { useEffect } from 'react';
+import { getActiveUser } from "./store/activeUser";
+import store from './store';
 
 function App() {
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      setTimeout(() => {
+        store.dispatch(getActiveUser());
+      }, 2000);
+    }
+  }, []);
+
   return (
     <div className="App">
       <Router>
@@ -13,9 +27,12 @@ function App() {
           <Route exact path="/">
             <AppGalleries />
           </Route>
-          <Route exact path="/register">
+          <GuestRoute exact path="/register">
             <Register />
-          </Route>
+          </GuestRoute>
+          <GuestRoute exact path="/login">
+            <Login />
+          </GuestRoute>
         </Switch>
       </Router>
     </div>
