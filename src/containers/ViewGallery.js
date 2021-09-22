@@ -29,8 +29,8 @@ function ViewGallery() {
     
       <p>{dateFormat}</p>
 
-      {gallery.images && gallery.images.length ? gallery.images.map((image) => (
-        <a target="_blank" rel="noreferrer" key={image.id} href={image.imageUrl}><img key={image.id} src={image.imageUrl} alt=""/></a> 
+      {gallery.images && gallery.images.length ? gallery.images.map((image, index) => (
+        <a target="_blank" rel="noreferrer" key={index} href={image.imageUrl}><img key={image.id} src={image.imageUrl} alt=""/></a> 
       )) : ""} 
     </div>
   )

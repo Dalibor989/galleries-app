@@ -25,12 +25,6 @@ function AppGalleries() {
     fetchGalleries();
   }, [page])
 
-  const loadMore = (e) => {
-    e.preventDefault();
-
-
-  }
-
   return (
     <div>
     {galleries.length ? 

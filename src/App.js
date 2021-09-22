@@ -11,6 +11,7 @@ import { getActiveUser } from "./store/activeUser";
 import store from './store';
 import ViewGallery from './containers/ViewGallery';
 import CreateGallery from './containers/CreateGallery';
+import MyGalleries from './containers/MyGalleries';
 
 function App() {
   useEffect(() => {
@@ -35,9 +36,9 @@ function App() {
           <GuestRoute exact path="/login">
             <Login />
           </GuestRoute>
-          {/* <PrivateRoute exact path="/my-galleries">
+          <PrivateRoute exact path="/my-galleries">
             <MyGalleries />
-          </PrivateRoute> */}
+          </PrivateRoute>
           <Route exact path="/galleries/:id">
             <ViewGallery />
           </Route>
