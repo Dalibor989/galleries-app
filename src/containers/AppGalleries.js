@@ -5,6 +5,9 @@ import galleriesService from "../services/GalleriesService";
 
 function AppGalleries() {
   const [galleries, setGalleries] = useState([]);
+  const [page, setPage] = useState(1);
+  const [maxPage, setMaxPage] = useState();
+  const [loading, setLoading] = useState(false);
 
   const dateFormat = useFormattedDate(
     galleries.length ? galleries[0].created_at : ""
@@ -12,13 +15,21 @@ function AppGalleries() {
 
   useEffect(() => {
     const fetchGalleries = async () => {
-      const data = await galleriesService.getAll();
-      console.log(data)
-      setGalleries(data);
+      setLoading(true);
+      const data = await galleriesService.getAll(page);
+      setMaxPage(data.last_page)
+      setGalleries([...galleries,...data.data]);
+      setLoading(false);
     }
 
     fetchGalleries();
-  }, [])
+  }, [page])
+
+  const loadMore = (e) => {
+    e.preventDefault();
+
+
+  }
 
   return (
     <div>
@@ -28,7 +39,7 @@ function AppGalleries() {
           <li key={gallery.id}>
             <Link to={`/galleries/${gallery.id}`}>
             {gallery.title} 
-            {gallery.images.length ? <img src={gallery.images.length ? gallery.images[0].imageUrl : ''}/> : <p>No images</p>}
+            {gallery.images.length ? <img src={gallery.images.length ? gallery.images[0].imageUrl : ''} alt=""/> : <p>No images</p>}
             </Link>
             <p>{gallery.user.firstName} {gallery.user.lastName}</p>
             <p className="date">{dateFormat}</p>
@@ -36,7 +47,7 @@ function AppGalleries() {
         ))}
       </ul> : ''
     }
-      
+      {maxPage !== page && <button  onClick={() => setPage(page + 1)}>{loading ? 'Loading...' : 'Load More'}</button>}
     </div>
   )
 }
