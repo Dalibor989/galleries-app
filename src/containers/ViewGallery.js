@@ -32,7 +32,7 @@ function ViewGallery() {
       <p>{dateFormat}</p>
 
       {gallery.images && gallery.images.length ? gallery.images.map((image) => (
-        <img key={image.id} src={image.imageUrl}/> 
+        <a target="_blank" key={image.id} href={image.imageUrl}><img key={image.id} src={image.imageUrl} alt=""/></a> 
       )) : ""} 
     </div>
   )

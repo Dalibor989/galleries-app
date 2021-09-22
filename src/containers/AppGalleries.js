@@ -26,12 +26,12 @@ function AppGalleries() {
       <ul>
         {galleries.map((gallery) => (
           <li key={gallery.id}>
-            <p>{gallery.user.firstName} {gallery.user.lastName}</p>
-            <p className="date">{dateFormat}</p>
             <Link to={`/galleries/${gallery.id}`}>
             {gallery.title} 
             {gallery.images.length ? <img src={gallery.images.length ? gallery.images[0].imageUrl : ''}/> : <p>No images</p>}
             </Link>
+            <p>{gallery.user.firstName} {gallery.user.lastName}</p>
+            <p className="date">{dateFormat}</p>
           </li>
         ))}
       </ul> : ''

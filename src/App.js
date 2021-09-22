@@ -38,9 +38,9 @@ function App() {
           {/* <PrivateRoute exact path="/my-galleries">
             <MyGalleries />
           </PrivateRoute> */}
-          <PrivateRoute exact path="/galleries/:id">
+          <Route exact path="/galleries/:id">
             <ViewGallery />
-          </PrivateRoute>
+          </Route>
           <PrivateRoute exact path="/create">
             <CreateGallery />
           </PrivateRoute>
