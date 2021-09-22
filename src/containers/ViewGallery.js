@@ -20,11 +20,20 @@ function ViewGallery() {
     <div>
       <h3>{gallery.title}</h3>
 
-      <p>{gallery.description}</p>
-      {gallery.images && gallery.images.length ?
-      <img src={gallery.images.length ? gallery.images[0].imageUrl : ''}/> : "No image"
-      }
       {gallery.user && gallery.user.length ? <p>{gallery.user.firstName}</p> : ''}
+      
+      <p>{gallery.description}</p>
+
+      {gallery.images || gallery.user ? <p>{gallery.user.firstName} {gallery.user.lastName}</p> : ""}
+    
+
+      {gallery.images && gallery.images.length ? gallery.images.map((image) => (
+        <img key={image.id} src={image.imageUrl}/> 
+      )) : ""} 
+
+      {/* {gallery.images && gallery.images.length ?
+      <img src={gallery.images.length ? gallery.images[0].imageUrl : ''}/> : "No image"
+      } */}
     </div>
   )
 }

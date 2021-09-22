@@ -1,10 +1,14 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
+import useFormattedDate from "../hooks/useFormattedDate";
 import galleriesService from "../services/GalleriesService";
 
 function AppGalleries() {
   const [galleries, setGalleries] = useState([]);
+
+  const dateFormat = useFormattedDate(
+    galleries.length ? galleries[0].created_at : ""
+  );
 
   useEffect(() => {
     const fetchGalleries = async () => {
@@ -18,13 +22,16 @@ function AppGalleries() {
 
   return (
     <div>
-    {galleries.length ? <ul>
+    {galleries.length ? 
+      <ul>
         {galleries.map((gallery) => (
-          <li key={gallery.id}><Link to={`/galleries/${gallery.id}`}>
-            {gallery.title} 
-            <img src={gallery.images.length ? gallery.images[0].imageUrl : ''}/>
-            </Link>
+          <li key={gallery.id}>
             <p>{gallery.user.firstName} {gallery.user.lastName}</p>
+            <p className="date">{dateFormat}</p>
+            <Link to={`/galleries/${gallery.id}`}>
+            {gallery.title} 
+            {gallery.images.length ? <img src={gallery.images.length ? gallery.images[0].imageUrl : ''}/> : <p>No images</p>}
+            </Link>
           </li>
         ))}
       </ul> : ''
