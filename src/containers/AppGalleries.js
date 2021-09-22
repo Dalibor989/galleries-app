@@ -20,7 +20,12 @@ function AppGalleries() {
     <div>
     {galleries.length ? <ul>
         {galleries.map((gallery) => (
-          <li key={gallery.id}><Link to={`/galleries/${gallery.id}`}>{gallery.title} <img src={gallery.images.length ? gallery.images[0].imageUrl : ''}/></Link></li>
+          <li key={gallery.id}><Link to={`/galleries/${gallery.id}`}>
+            {gallery.title} 
+            <img src={gallery.images.length ? gallery.images[0].imageUrl : ''}/>
+            </Link>
+            <p>{gallery.user.firstName} {gallery.user.lastName}</p>
+          </li>
         ))}
       </ul> : ''
     }

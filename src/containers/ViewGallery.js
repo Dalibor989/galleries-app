@@ -24,6 +24,7 @@ function ViewGallery() {
       {gallery.images && gallery.images.length ?
       <img src={gallery.images.length ? gallery.images[0].imageUrl : ''}/> : "No image"
       }
+      {gallery.user && gallery.user.length ? <p>{gallery.user.firstName}</p> : ''}
     </div>
   )
 }

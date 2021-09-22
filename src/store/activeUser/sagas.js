@@ -10,6 +10,7 @@ function* loginHandler(action) {
     yield put(setToken(token));
   } catch (error) {
     console.log(error);
+    alert(error);
   }
 }
 

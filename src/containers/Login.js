@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useHistory } from "react-router";
-import authService from "../services/AuthService";
+import { useDispatch } from "react-redux";
+import { login } from "../store/activeUser/slice";
 
 function Login() {
   const [credentials, setCredentials] = useState({
@@ -8,14 +8,12 @@ function Login() {
     'password': '',
   });
 
-  const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await authService.login(credentials);
-
-    history.push('/');
+    dispatch(login(credentials));
   }
 
   const handleEmailChange = (e) => {
@@ -37,11 +35,11 @@ function Login() {
       <form className="container" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="emai">Email address</label>
-          <input type="email" className="form-control" id="emai" placeholder="Enter email" value={credentials.email} onChange={handleEmailChange}/>
+          <input required type="email" className="form-control" id="emai" placeholder="Enter email" value={credentials.email} onChange={handleEmailChange}/>
         </div>
         <div className="form-group">
           <label htmlFor="password">Password</label>
-          <input type="password" className="form-control" id="password" placeholder="Password" value={credentials.password} onChange={handlePasswordChange} />
+          <input required type="password" className="form-control" id="password" placeholder="Password" value={credentials.password} onChange={handlePasswordChange} />
         </div>
         <button type="submit" className="btn btn-primary">Login</button>
       </form>

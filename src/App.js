@@ -17,7 +17,7 @@ function App() {
     if (localStorage.getItem("token")) {
       setTimeout(() => {
         store.dispatch(getActiveUser());
-      }, 2000);
+      }, 500);
     }
   }, []);
 
