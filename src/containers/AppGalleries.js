@@ -27,6 +27,10 @@ function AppGalleries() {
 
   return (
     <div>
+    <form>
+      <input type="text" placeholder="search..." />
+      <button className="btn btn-primary">Search</button>
+    </form>
     {galleries.length ? 
       <ul>
         {galleries.map((gallery) => (
@@ -41,7 +45,7 @@ function AppGalleries() {
         ))}
       </ul> : ''
     }
-      {maxPage !== page && <button  onClick={() => setPage(page + 1)}>{loading ? 'Loading...' : 'Load More'}</button>}
+      {maxPage !== page && <button className="btn btn-primary" onClick={() => setPage(page + 1)}>{loading ? 'Loading...' : 'Load More'}</button>}
     </div>
   )
 }

@@ -2,9 +2,13 @@ import { useParams } from "react-router";
 import { useState, useEffect } from "react";
 import galleriesService from "../services/GalleriesService";
 import useFormattedDate from "../hooks/useFormattedDate";
+import commentsService from "../services/CommentsService";
 
 function ViewGallery() {
   const [gallery, setGallery] = useState([]);
+  const [comment, setComment] = useState({
+    'content': '',
+  })
   const { id } = useParams()
 
   const dateFormat = useFormattedDate(gallery.created_at);
@@ -18,7 +22,22 @@ function ViewGallery() {
     
     fetchGallery();
   }, [id])
+
+  const handleCommentSubmit = async (e) => {
+    e.preventDefault();
+
+    await commentsService.addComments(comment);
+
+    setComment('');
+  }
   
+  const handleContentChange = (e) => {
+    setComment({
+      ...comment,
+      content: e.target.value,
+    })
+  }
+
   return (
     <div>
       <h3>{gallery.title}</h3>
@@ -57,6 +76,11 @@ function ViewGallery() {
         ))}
       </ul> : ''
       }
+
+      <form className="container" onSubmit={handleCommentSubmit}>
+        <textarea className="form-control" placeholder="comment..." id="" cols="30" rows="5" value={comment.content} onChange={handleContentChange}/>
+        <button className="btn btn-primary">Post</button>
+      </form>
     </div>
   )
 }
