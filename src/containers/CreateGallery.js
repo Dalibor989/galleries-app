@@ -1,7 +1,6 @@
 function CreateGallery() {
   return (
     <div>
-      <form>
       <form className="container">
         <div className="form-group">
           <label htmlFor="title">Gallery title</label>
@@ -16,7 +15,6 @@ function CreateGallery() {
           <input type="url" className="form-control" id="imageUrl" placeholder="Image url" />
         </div>
         <button className="btn btn-primary">Add Movie</button>
-      </form>
       </form>
     </div>
   )

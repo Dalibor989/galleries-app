@@ -16,16 +16,22 @@ function MyGalleries() {
       const data = await galleriesService.getMyGalleries(activeUser.id);
 
       setMyGalleries(data);
-      console.log(data);
     }
     fetchMyGalleries();
   }, [activeUser]);
 
   return (
     <div>
-      {myGalleries.map((gallery) => (
-        <h3>{gallery.title}</h3>
-      ))}
+      {myGalleries.length ? 
+        <ul>
+          {myGalleries.map((gallery) => (
+            <li key={gallery.id}>
+              <h3>{gallery.title}</h3>
+              {gallery.images && gallery.images.length ? <img src={gallery.images[0].imageUrl} alt="" /> : <p>You have no images in this gallery</p>}
+            </li>
+          ))}
+        </ul> : <p>You have no galleries</p>
+      }
     </div>
   )
 }
