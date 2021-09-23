@@ -25,6 +25,30 @@ class GalleriesService extends HttpService
 
         return data;
     }
+
+    addComment = async (comment, galleryId) => {
+        const { data } = await this.apiCall.post(`/galleries/${galleryId}/comments`, comment);
+
+        return data;
+    }
+
+    deleteComment = async (id) => {
+        const { data } = await this.apiCall.delete(`/comments/${id}`)
+
+        return data;
+    }
+
+    addGallery = async (newGallery) => {
+        const { data } = await this.apiCall.post(`/galleries`, newGallery);
+
+        return data;
+    }
+
+    edit = async (id, gallery) => {
+        const { data } = await this.apiCall.get(`/galleries/${id}`, gallery);
+        
+        return data;
+    }
 }
 
 export default new GalleriesService();

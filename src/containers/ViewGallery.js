@@ -2,16 +2,22 @@ import { useParams } from "react-router";
 import { useState, useEffect } from "react";
 import galleriesService from "../services/GalleriesService";
 import useFormattedDate from "../hooks/useFormattedDate";
-import commentsService from "../services/CommentsService";
+import AddComment from "../components/AddComment";
 
 function ViewGallery() {
   const [gallery, setGallery] = useState([]);
-  const [comment, setComment] = useState({
-    'content': '',
-  })
+  
   const { id } = useParams()
 
   const dateFormat = useFormattedDate(gallery.created_at);
+
+  const handleAddNewComment = (comment) => {
+    setGallery({ ...gallery, comments: [...gallery.comments, comment] });
+  };
+
+  const handleDeleteComment = async (id) => {
+    const data = await galleriesService.deleteComment(id);
+  }
   
   useEffect(() => {
     const fetchGallery = async () => {
@@ -23,20 +29,7 @@ function ViewGallery() {
     fetchGallery();
   }, [id])
 
-  const handleCommentSubmit = async (e) => {
-    e.preventDefault();
-
-    await commentsService.addComments(comment);
-
-    setComment('');
-  }
   
-  const handleContentChange = (e) => {
-    setComment({
-      ...comment,
-      content: e.target.value,
-    })
-  }
 
   return (
     <div>
@@ -72,15 +65,17 @@ function ViewGallery() {
         {gallery.comments.map((comment) => (
           <li key={comment.id}>
             <p>{comment.content}</p>
+            <button onClick={() => handleDeleteComment(comment.id)}>Delete</button>
           </li>
         ))}
       </ul> : ''
       }
 
-      <form className="container" onSubmit={handleCommentSubmit}>
-        <textarea className="form-control" placeholder="comment..." id="" cols="30" rows="5" value={comment.content} onChange={handleContentChange}/>
-        <button className="btn btn-primary">Post</button>
-      </form>
+      <AddComment 
+        galleryId={id}
+        addNewCommentCallback={handleAddNewComment}
+      />
+
     </div>
   )
 }
