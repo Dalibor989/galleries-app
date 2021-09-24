@@ -1,15 +1,17 @@
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { useState, useEffect } from "react";
 import galleriesService from "../services/GalleriesService";
 import useFormattedDate from "../hooks/useFormattedDate";
 import { useSelector } from "react-redux";
 import { selectActiveUser, selectIsAuthenticated } from "../store/activeUser";
 import AddComment from "../components/AddComment";
+import SearchTerm from "../components/SearchTerm";
 
 function ViewGallery() {
   const [gallery, setGallery] = useState([]);
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const activeUser = useSelector(selectActiveUser);
+  const history = useHistory();
   
   const { id } = useParams()
 
@@ -31,6 +33,17 @@ function ViewGallery() {
     
     setGallery({...gallery, comments:   gallery.comments.filter((comment)=> comment.id !== id)})
   }
+
+  const handleDeleteGallery = async (galleryId) => {
+    const response = prompt(
+      "To delete this gallery, type yes. "
+    )
+    if(response !== 'yes'){
+      return;
+    }
+
+    await galleriesService.deleteGallery(galleryId);
+  }
   
   useEffect(() => {
     const fetchGallery = async () => {
@@ -46,12 +59,15 @@ function ViewGallery() {
 
   return (
     <div>
+      <SearchTerm />
       <h3>{gallery.title}</h3>
       
       <p>{gallery.description}</p>
 
       {gallery.user ? <p>{gallery.user.firstName} {gallery.user.lastName}</p> : ""}
-    
+      <button className="btn btn-primary" onClick={handleDeleteGallery}>Delete</button>
+      <button className="btn btn-primary" type="button" onClick={() => history.push(`/edit/${gallery.id}`)}>Edit</button>
+
       <p>{dateFormat}</p>
       <div  id="carouselExampleControls" className="carousel slide" data-ride="carousel">
         <div className="carousel-inner">

@@ -57,7 +57,7 @@ function CreateGallery() {
     const fetchGallery = async () => {
       const { id: _, created_at, ...data } = await galleriesService.getGallery(id);
       console.log(data.images.imageUrl);
-      setNewGallery(data);
+      setNewGallery({...data, imageUrl: data.images.imageUrl});
     };
 
     if (id) {

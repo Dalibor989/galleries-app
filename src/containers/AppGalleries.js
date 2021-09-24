@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useHistory } from 'react-router-dom';
+import SearchTerm from "../components/SearchTerm";
 import useFormattedDate from "../hooks/useFormattedDate";
 import galleriesService from "../services/GalleriesService";
 
@@ -13,19 +14,6 @@ function AppGalleries() {
   const dateFormat = useFormattedDate(
     galleries.length ? galleries[0].created_at : ""
   );
-
-  const handleDeleteGallery = async (galleryId) => {
-    const response = prompt(
-      "To delete this gallery, type yes. "
-    )
-    if(response !== 'yes'){
-      return;
-    }
-
-    await galleriesService.deleteGallery(galleryId);
-
-    setGalleries(galleries.filter(({id}) => id !== galleryId));
-  }
 
   useEffect(() => {
     const fetchGalleries = async () => {
@@ -41,10 +29,7 @@ function AppGalleries() {
 
   return (
     <div>
-    <form>
-      <input type="text" placeholder="search..." />
-      <button className="btn btn-primary">Search</button>
-    </form>
+    <SearchTerm />
     {galleries.length ? 
       <ul>
         {galleries.map((gallery) => (
@@ -53,10 +38,10 @@ function AppGalleries() {
             {gallery.title} 
             {gallery.images.length ? <img src={gallery.images.length ? gallery.images[0].imageUrl : ''} alt=""/> : <p>No images</p>}
             </Link>
-            <p>{gallery.user.firstName} {gallery.user.lastName}</p>
+            <Link to={`/authors/${gallery.user.id}`}>
+              <p>{gallery.user.firstName} {gallery.user.lastName}</p>
+            </Link>
             <p className="date">{dateFormat}</p>
-            <button className="btn btn-primary" type="button" onClick={() => history.push(`/edit/${gallery.id}`)}>Edit</button>
-            <button className="btn btn-primary" onClick={() => handleDeleteGallery(gallery.id)} >Delete</button>
           </li>
         ))}
       </ul> : ''

@@ -12,6 +12,7 @@ import store from './store';
 import ViewGallery from './containers/ViewGallery';
 import CreateGallery from './containers/CreateGallery';
 import MyGalleries from './containers/MyGalleries';
+import Authors from './containers/Authors';
 
 function App() {
   useEffect(() => {
@@ -45,15 +46,18 @@ function App() {
           <PrivateRoute exact path="/create">
             <CreateGallery />
           </PrivateRoute>
-          <PrivateRoute exact path="/edit/:id">
+          <PrivateRoute exact path="/create">
             <CreateGallery />
           </PrivateRoute>
+          <Route exact path="/authors/:id">
+            <Authors />
+          </Route>
           <Route exact path="/">
             <Redirect to="/galleries" />
           </Route>
-          <Route path="/">
+          {/* <Route path="/">
             <div>Page not found</div>
-          </Route>
+          </Route> */}
         </Switch>
       </Router>
     </div>

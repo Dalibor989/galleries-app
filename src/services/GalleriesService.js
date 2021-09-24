@@ -2,11 +2,11 @@ import HttpService from "./HttpService";
 
 class GalleriesService extends HttpService
 {
-    getAll = async (number = 1, tearm= "") => {
+    getAll = async (number = 1, term= "Omnis quas quae eveniet." ) => {
         let endpoint = `/galleries/?page=${number}`;
 
-        if(tearm) {
-            endpoint += `&tearm={tearm}`
+        if(term) {
+            endpoint += `&term=${term}`
         }
 
         const { data } = await this.apiCall.get(endpoint);
