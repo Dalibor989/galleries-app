@@ -94,7 +94,7 @@ function Register() {
             <input required className="form-control" id="password_confirmation" placeholder="Confirm password" type="password" value={credentials.password_confirmation} onChange={handlePasswordConfirmationChange} />
           </div>
           <div className="form-check">
-            <input type="checkbox" name="agreed" className="form-check-input" id="agreed" onChange={handleAgreedChange} />
+            <input required type="checkbox" name="agreed" className="form-check-input" id="agreed" onChange={handleAgreedChange} />
             <label className="form-check-label" htmlFor="agreed">I agree to terms and conditions.</label>
           </div>
           <div className="form-group">

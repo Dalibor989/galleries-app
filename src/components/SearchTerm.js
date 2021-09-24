@@ -1,5 +1,4 @@
 import { useState } from "react";
-import GalleriesService from "../services/GalleriesService";
 
 function SearchTerm({handleCallback}) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -7,12 +6,10 @@ function SearchTerm({handleCallback}) {
   const handleChangeSearchTerm = (e) => {
     e.preventDefault();
     setSearchTerm(e.target.value);
-    console.log('value', e.target.value);
   }
 
 
     const handleSearch = async () => {
-      console.log('search term', searchTerm);
       handleCallback(searchTerm);
     };
 

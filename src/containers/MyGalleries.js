@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import galleriesService from "../services/GalleriesService";
 import { Link } from "react-router-dom";
-import useFormattedDate from "../hooks/useFormattedDate";
 
 function MyGalleries() {
   const activeUser = useSelector(selectActiveUser);

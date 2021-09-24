@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import SearchTerm from "../components/SearchTerm";
 import useFormattedDate from "../hooks/useFormattedDate";
 import galleriesService from "../services/GalleriesService";
@@ -18,7 +18,6 @@ function AppGalleries() {
   useEffect(() => {
     const fetchGalleries = async () => {
       setLoading(true);
-      console.log(term);
       const data = await galleriesService.getAll(page, term);
       setMaxPage(data.last_page)
       setGalleries([...galleries,...data.data]);

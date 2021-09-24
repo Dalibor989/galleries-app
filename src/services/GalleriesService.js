@@ -4,7 +4,7 @@ class GalleriesService extends HttpService
 {
     getAll = async (number = 1, term= "" ) => {
         let endpoint = `/galleries/?page=${number}`;
-        console.log(term);
+        
         if(term) {
             endpoint += `&term=${term}`
         }

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useParams } from "react-router";
 import galleriesService from "../services/GalleriesService";
 
 function AddComment({galleryId, addNewCommentCallback}) {
@@ -9,7 +8,7 @@ function AddComment({galleryId, addNewCommentCallback}) {
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
-    console.log(galleryId)
+
     const data = await galleriesService.addComment(newComment, galleryId);
 
     if(data) {

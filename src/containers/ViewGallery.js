@@ -8,6 +8,7 @@ import AddComment from "../components/AddComment";
 import SearchTerm from "../components/SearchTerm";
 
 import { Carousel } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 function ViewGallery() {
   const [gallery, setGallery] = useState([]);
@@ -67,10 +68,19 @@ function ViewGallery() {
       <h3>{gallery.title}</h3>
       
       <p>{gallery.description}</p>
+      
+      {gallery.user ? <Link to={`/authors/${gallery.user.id}`}> <p>{gallery.user.firstName} {gallery.user.lastName}</p></Link> : ""}
 
-      {gallery.user ? <p>{gallery.user.firstName} {gallery.user.lastName}</p> : ""}
-      <button className="btn btn-primary" onClick={() => handleDeleteGallery(gallery.id)}>Delete</button>
-      <button className="btn btn-primary" type="button" onClick={() => history.push(`/edit-gallery/${gallery.id}`)}>Edit</button>
+      {activeUser && gallery.user ?
+      <div>
+        {activeUser.id === gallery.user.id ? 
+          <div>
+            <button className="btn btn-primary" onClick={() => handleDeleteGallery(gallery.id)}>Delete</button>
+            <button className="btn btn-primary" type="button" onClick={() => history.push(`/edit-gallery/${gallery.id}`)}>Edit</button>
+          </div>
+          : ''
+        }
+      </div> : ''}
       
       <Carousel>
       {gallery.images && gallery.images.length
@@ -81,7 +91,6 @@ function ViewGallery() {
                     className="single-page--img"
                     src={image.imageUrl}
                     alt={image.imageUrl}
-                    key={image.id}
                   />
                 </a>
               </Carousel.Item>
@@ -97,7 +106,7 @@ function ViewGallery() {
           <li key={comment.id}>
             <p>{comment.content}</p>
             <p>{comment.user.firstName} {comment.user.lastName}</p>
-            <p>{comment.created_at}</p>
+            <p>{dateFormat}</p>
             {activeUser ?
             <p>{activeUser.id === comment.user.id ?  <button onClick={() => handleDeleteComment(comment.id)}>Delete</button> : ''}</p> : ''}
           </li>

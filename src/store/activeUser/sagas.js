@@ -10,7 +10,7 @@ function* loginHandler(action) {
     yield put(setToken(token));
   } catch (error) {
     console.log(error);
-    alert(error);
+    alert("Wrong credentials");
   }
 }
 
@@ -38,7 +38,7 @@ function* registerHandler(action) {
     yield put(setActiveUser(user));
     yield put(setToken(token));
   } catch (error) {
-    console.log(error);
+    alert("Wrong credentials");
   }
 }
 
