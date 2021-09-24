@@ -2,10 +2,14 @@ import { useParams } from "react-router";
 import { useState, useEffect } from "react";
 import galleriesService from "../services/GalleriesService";
 import useFormattedDate from "../hooks/useFormattedDate";
+import { useSelector } from "react-redux";
+import { selectActiveUser, selectIsAuthenticated } from "../store/activeUser";
 import AddComment from "../components/AddComment";
 
 function ViewGallery() {
   const [gallery, setGallery] = useState([]);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const activeUser = useSelector(selectActiveUser);
   
   const { id } = useParams()
 
@@ -16,7 +20,16 @@ function ViewGallery() {
   };
 
   const handleDeleteComment = async (id) => {
-    const data = await galleriesService.deleteComment(id);
+    const response = prompt(
+      "To delete this comment, type yes. "
+    )
+    if(response !== 'yes'){
+      return;
+    }
+
+    await galleriesService.deleteComment(id);
+    
+    setGallery({...gallery, comments:   gallery.comments.filter((comment)=> comment.id !== id)})
   }
   
   useEffect(() => {
@@ -40,11 +53,11 @@ function ViewGallery() {
       {gallery.user ? <p>{gallery.user.firstName} {gallery.user.lastName}</p> : ""}
     
       <p>{dateFormat}</p>
-      <div id="carouselExampleControls" className="carousel slide" data-ride="carousel">
+      <div  id="carouselExampleControls" className="carousel slide" data-ride="carousel">
         <div className="carousel-inner">
           <div className="carousel-item active">
             {gallery.images && gallery.images.length ? gallery.images.map((image, index) => (
-              <a target="_blank" rel="noreferrer" key={index} href={image.imageUrl}><img className="d-block w-100" key={image.id} src={image.imageUrl} alt=""/></a> 
+              <a target="_blank" rel="noreferrer" key={index} href={image.imageUrl}><img  className="d-block w-100" key={image.id} src={image.imageUrl} alt=""/></a> 
             )) : ""}
           </div>
         </div>
@@ -65,16 +78,20 @@ function ViewGallery() {
         {gallery.comments.map((comment) => (
           <li key={comment.id}>
             <p>{comment.content}</p>
-            <button onClick={() => handleDeleteComment(comment.id)}>Delete</button>
+            <p>{comment.user.firstName} {comment.user.lastName}</p>
+            <p>{comment.created_at}</p>
+            {activeUser ?
+            <p>{activeUser.id === comment.user.id ?  <button onClick={() => handleDeleteComment(comment.id)}>Delete</button> : ''}</p> : ''}
           </li>
         ))}
       </ul> : ''
       }
 
+      {isAuthenticated ?
       <AddComment 
         galleryId={id}
         addNewCommentCallback={handleAddNewComment}
-      />
+      /> : ""}
 
     </div>
   )

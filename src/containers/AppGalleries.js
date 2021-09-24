@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import useFormattedDate from "../hooks/useFormattedDate";
 import galleriesService from "../services/GalleriesService";
 
@@ -8,10 +8,24 @@ function AppGalleries() {
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState();
   const [loading, setLoading] = useState(false);
+  const history = useHistory();
 
   const dateFormat = useFormattedDate(
     galleries.length ? galleries[0].created_at : ""
   );
+
+  const handleDeleteGallery = async (galleryId) => {
+    const response = prompt(
+      "To delete this gallery, type yes. "
+    )
+    if(response !== 'yes'){
+      return;
+    }
+
+    await galleriesService.deleteGallery(galleryId);
+
+    setGalleries(galleries.filter(({id}) => id !== galleryId));
+  }
 
   useEffect(() => {
     const fetchGalleries = async () => {
@@ -41,6 +55,8 @@ function AppGalleries() {
             </Link>
             <p>{gallery.user.firstName} {gallery.user.lastName}</p>
             <p className="date">{dateFormat}</p>
+            <button className="btn btn-primary" type="button" onClick={() => history.push(`/edit/${gallery.id}`)}>Edit</button>
+            <button className="btn btn-primary" onClick={() => handleDeleteGallery(gallery.id)} >Delete</button>
           </li>
         ))}
       </ul> : ''

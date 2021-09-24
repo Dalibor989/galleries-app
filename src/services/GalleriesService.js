@@ -2,11 +2,11 @@ import HttpService from "./HttpService";
 
 class GalleriesService extends HttpService
 {
-    getAll = async (number = 1, title= "") => {
-        let endpoint = "/galleries/?page=${number}";
+    getAll = async (number = 1, tearm= "") => {
+        let endpoint = `/galleries/?page=${number}`;
 
-        if(title) {
-            endpoint += `&title={title}`
+        if(tearm) {
+            endpoint += `&tearm={tearm}`
         }
 
         const { data } = await this.apiCall.get(endpoint);
@@ -44,8 +44,14 @@ class GalleriesService extends HttpService
         return data;
     }
 
+    deleteGallery = async (id) => {
+        const { data } = await this.apiCall.delete(`/galleries/${id}`)
+
+        return data;
+    }
+
     edit = async (id, gallery) => {
-        const { data } = await this.apiCall.get(`/galleries/${id}`, gallery);
+        const { data } = await this.apiCall.put(`/galleries/${id}`, gallery);
         
         return data;
     }

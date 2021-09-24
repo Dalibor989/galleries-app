@@ -1,29 +1,35 @@
 import { useState } from "react"
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import galleriesService from "../services/GalleriesService";
 import { useSelector } from "react-redux";
 import { selectActiveUser } from "../store/activeUser";
+import { useEffect } from "react";
 
 function CreateGallery() {
-  const [newGallery, setNewGallery] = useState([]);
+  const [newGallery, setNewGallery] = useState({
+    'title': '',
+    'description': '',
+    'imageUrl': '',
+  });
   const activeUser = useSelector(selectActiveUser);
   const { id } = useParams();
+  const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     let data = null;
+    
     if (!activeUser) {
       return ;
     }
-    setNewGallery({ ...newGallery, user_id: activeUser.id })
-
+    
     if(id) {
       data = await galleriesService.edit(id, newGallery);
     } else {
       data = await galleriesService.addGallery(newGallery);
     }
 
-
+    history.push('/my-galleries')
   }
 
   const handleTitleChange = (e) => {
@@ -46,6 +52,18 @@ function CreateGallery() {
       imageUrl: e.target.value
     })
   }
+
+  useEffect(() => {
+    const fetchGallery = async () => {
+      const { id: _, created_at, ...data } = await galleriesService.getGallery(id);
+      console.log(data.images.imageUrl);
+      setNewGallery(data);
+    };
+
+    if (id) {
+      fetchGallery();
+    }
+  }, [id]);
 
   return (
     <div>
