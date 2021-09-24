@@ -31,9 +31,11 @@ function AppGalleries() {
     <div>
     <SearchTerm />
     {galleries.length ? 
-      <ul>
+      <ul className="card-container">
         {galleries.map((gallery) => (
-          <li key={gallery.id}>
+          <li
+          className="cardBox" 
+          key={gallery.id}>
             <Link to={`/galleries/${gallery.id}`}>
             {gallery.title} 
             {gallery.images.length ? <img src={gallery.images.length ? gallery.images[0].imageUrl : ''} alt=""/> : <p>No images</p>}

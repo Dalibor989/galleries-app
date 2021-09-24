@@ -2,7 +2,7 @@ import HttpService from "./HttpService";
 
 class GalleriesService extends HttpService
 {
-    getAll = async (number = 1, term= "Omnis quas quae eveniet." ) => {
+    getAll = async (number = 1, term= "" ) => {
         let endpoint = `/galleries/?page=${number}`;
 
         if(term) {
