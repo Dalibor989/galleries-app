@@ -46,7 +46,7 @@ function App() {
           <PrivateRoute exact path="/create">
             <CreateGallery />
           </PrivateRoute>
-          <PrivateRoute exact path="/create">
+          <PrivateRoute exact path="/edit-gallery/:id">
             <CreateGallery />
           </PrivateRoute>
           <Route exact path="/authors/:id">

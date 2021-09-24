@@ -3,10 +3,13 @@ import { useEffect } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import galleriesService from "../services/GalleriesService";
+import useFormattedDate from "../hooks/useFormattedDate";
 
 function Authors() {
   const { id } = useParams();
   const [authorsGalleries, setAuthorsGalleries] = useState([]);
+
+  const dateFormat = useFormattedDate(authorsGalleries.created_at);
 
   useEffect(() => {
     const fetchMyGalleries = async () => {
@@ -26,6 +29,7 @@ function Authors() {
               <Link to={`/galleries/${gallery.id}`}>
               <h3>{gallery.title}</h3>
               </Link>
+              <p>{gallery.description}</p>
               {gallery.images && gallery.images.length ? <img src={gallery.images[0].imageUrl} alt="" /> : <p>You have no images in this gallery</p>}
             </li>
           ))}

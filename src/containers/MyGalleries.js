@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import galleriesService from "../services/GalleriesService";
 import { Link } from "react-router-dom";
+import useFormattedDate from "../hooks/useFormattedDate";
 
 function MyGalleries() {
   const activeUser = useSelector(selectActiveUser);
@@ -30,6 +31,7 @@ function MyGalleries() {
               <Link to={`/galleries/${gallery.id}`}>
               <h3>{gallery.title}</h3>
               </Link>
+              <p>{gallery.description}</p>
               {gallery.images && gallery.images.length ? <img src={gallery.images[0].imageUrl} alt="" /> : <p>You have no images in this gallery</p>}
             </li>
           ))}

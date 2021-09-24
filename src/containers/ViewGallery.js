@@ -1,11 +1,13 @@
 import { useHistory, useParams } from "react-router";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import galleriesService from "../services/GalleriesService";
 import useFormattedDate from "../hooks/useFormattedDate";
 import { useSelector } from "react-redux";
 import { selectActiveUser, selectIsAuthenticated } from "../store/activeUser";
 import AddComment from "../components/AddComment";
 import SearchTerm from "../components/SearchTerm";
+
+import { Carousel } from "react-bootstrap";
 
 function ViewGallery() {
   const [gallery, setGallery] = useState([]);
@@ -43,6 +45,8 @@ function ViewGallery() {
     }
 
     await galleriesService.deleteGallery(galleryId);
+
+    history.push('/my-galleries');
   }
   
   useEffect(() => {
@@ -65,27 +69,25 @@ function ViewGallery() {
       <p>{gallery.description}</p>
 
       {gallery.user ? <p>{gallery.user.firstName} {gallery.user.lastName}</p> : ""}
-      <button className="btn btn-primary" onClick={handleDeleteGallery}>Delete</button>
-      <button className="btn btn-primary" type="button" onClick={() => history.push(`/edit/${gallery.id}`)}>Edit</button>
-
-      <p>{dateFormat}</p>
-      <div  id="carouselExampleControls" className="carousel slide" data-ride="carousel">
-        <div className="carousel-inner">
-          <div className="carousel-item active">
-            {gallery.images && gallery.images.length ? gallery.images.map((image, index) => (
-              <a target="_blank" rel="noreferrer" key={index} href={image.imageUrl}><img  className="d-block w-100" key={image.id} src={image.imageUrl} alt=""/></a> 
-            )) : ""}
-          </div>
-        </div>
-        <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span className="sr-only">Previous</span>
-        </a>
-        <a className="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-          <span className="carousel-control-next-icon" aria-hidden="true"></span>
-          <span className="sr-only">Next</span>
-        </a>
-      </div>
+      <button className="btn btn-primary" onClick={() => handleDeleteGallery(gallery.id)}>Delete</button>
+      <button className="btn btn-primary" type="button" onClick={() => history.push(`/edit-gallery/${gallery.id}`)}>Edit</button>
+      
+      <Carousel>
+      {gallery.images && gallery.images.length
+          ? gallery.images.map((image, index) => (
+              <Carousel.Item key={image.id}>
+                <a key={index} target="_blank" rel="noreferrer" href={image.imageUrl}>
+                  <img
+                    className="single-page--img"
+                    src={image.imageUrl}
+                    alt={image.imageUrl}
+                    key={image.id}
+                  />
+                </a>
+              </Carousel.Item>
+            ))
+          : "This post dosen't have image"}
+      </Carousel>
 
       <p><strong>Comments: </strong></p>
 

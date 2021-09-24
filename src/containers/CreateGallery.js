@@ -11,18 +11,26 @@ function CreateGallery() {
     'description': '',
     'imageUrl': '',
   });
+  const [inputList, setInputList] = useState([{}]);
+
   const activeUser = useSelector(selectActiveUser);
   const { id } = useParams();
   const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(newGallery);
+    console.log('imputList', inputList);
     let data = null;
     
     if (!activeUser) {
       return ;
     }
     
+    newGallery.images = inputList.map((image) => (
+      image.imageUrl
+    ))
+    console.log('newGallery', newGallery)
     if(id) {
       data = await galleriesService.edit(id, newGallery);
     } else {
@@ -53,6 +61,10 @@ function CreateGallery() {
     })
   }
 
+  const handleCancel = () => {
+    history.push('/my-galleries')
+  }
+
   useEffect(() => {
     const fetchGallery = async () => {
       const { id: _, created_at, ...data } = await galleriesService.getGallery(id);
@@ -65,6 +77,28 @@ function CreateGallery() {
     }
   }, [id]);
 
+  // handle input change
+  const handleInputChange = (e, index) => {
+    const { name, value } = e.target;
+    const list = [...inputList];
+    console.log(list);
+    console.log(name);
+    list[index][name] = value;
+    setInputList(list);
+  };
+  
+  // handle click event of the Remove button
+  const handleRemoveClick = index => {
+    const list = [...inputList];
+    list.splice(index, 1);
+    setInputList(list);
+  };
+  
+  // handle click event of the Add button
+  const handleAddClick = () => {
+    setInputList([...inputList, { imageUrl: "" }]);
+  };
+
   return (
     <div>
       <form className="container" onSubmit={handleSubmit}>
@@ -76,11 +110,19 @@ function CreateGallery() {
           <label htmlFor="description">Description</label>
           <input type="text" className="form-control" id="description" placeholder="Description" value={newGallery.description} onChange={handleDescriptionChange} />
         </div>
+        {inputList.map((x, i) => (
         <div className="form-group">
           <label htmlFor="imageUrl">Image</label>
-          <input type="url" className="form-control" id="imageUrl" placeholder="Image url" value={newGallery.imageUrl} onChange={handleImageUrlChange} />
-        </div>
+          <input type="url" className="form-control" id="imageUrl" name="imageUrl" placeholder="Image url" value={x.imageUrl} onChange={e => handleInputChange(e, i)} />
+          <div className="btn-box">
+            {inputList.length !== 1 && <button
+              className="mr10"
+              onClick={() => handleRemoveClick(i)}>Remove</button>}
+            {inputList.length - 1 === i && <button onClick={handleAddClick}>Add</button>}
+          </div>
+        </div>))}
         <button className="btn btn-primary">{id ? 'Edit' : 'Create'}</button>
+        <button className="btn btn-primary" onClick={handleCancel}>Cancel</button>
       </form>
     </div>
   )

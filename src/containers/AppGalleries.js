@@ -29,6 +29,7 @@ function AppGalleries() {
   }, [page])
 
   const handleSearchCallback = async (searchTerm) => {
+    setPage(1);
     setTerm(searchTerm);
 
     setLoading(true);
