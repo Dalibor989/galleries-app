@@ -1,32 +1,29 @@
-import { useEffect } from "react";
 import { useState } from "react";
 import GalleriesService from "../services/GalleriesService";
 
-function SearchTerm() {
+function SearchTerm({handleCallback}) {
   const [searchTerm, setSearchTerm] = useState("");
   
-  function handleChangeSearchTerm(e) {
+  const handleChangeSearchTerm = (e) => {
     e.preventDefault();
     setSearchTerm(e.target.value);
+    console.log('value', e.target.value);
   }
 
 
-    const handleSearch = async (searchTerm) => {
-    if (!searchTerm || searchTerm.length > 2) {
-      await GalleriesService.getAll(searchTerm);
-      }
+    const handleSearch = async () => {
+      console.log('search term', searchTerm);
+      handleCallback(searchTerm);
     };
 
   return (
     <div>
-      <form onSubmit={handleSearch}>
         <input
           type="text"
           onChange={handleChangeSearchTerm}
           placeholder="Search tearm"
         />
-        <button className="btn btn-primary">Search</button>
-      </form>
+        <button onClick={handleSearch} className="btn btn-primary">Search</button>
     </div>
   )
 }

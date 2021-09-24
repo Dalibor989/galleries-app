@@ -9,7 +9,7 @@ function AppGalleries() {
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState();
   const [loading, setLoading] = useState(false);
-  const history = useHistory();
+  const [term, setTerm] = useState("");
 
   const dateFormat = useFormattedDate(
     galleries.length ? galleries[0].created_at : ""
@@ -18,7 +18,8 @@ function AppGalleries() {
   useEffect(() => {
     const fetchGalleries = async () => {
       setLoading(true);
-      const data = await galleriesService.getAll(page);
+      console.log(term);
+      const data = await galleriesService.getAll(page, term);
       setMaxPage(data.last_page)
       setGalleries([...galleries,...data.data]);
       setLoading(false);
@@ -27,9 +28,20 @@ function AppGalleries() {
     fetchGalleries();
   }, [page])
 
+  const handleSearchCallback = async (searchTerm) => {
+    setTerm(searchTerm);
+
+    setLoading(true);
+    
+    const data = await galleriesService.getAll(page, term);
+    setMaxPage(data.last_page)
+    setGalleries(data.data);
+    setLoading(false);
+  }
+
   return (
     <div>
-    <SearchTerm />
+    <SearchTerm handleCallback={handleSearchCallback} />
     {galleries.length ? 
       <ul className="card-container">
         {galleries.map((gallery) => (
