@@ -50,7 +50,7 @@ function AppGalleries() {
           key={gallery.id}>
             <Link to={`/galleries/${gallery.id}`}>
             {gallery.title} 
-            {gallery.images.length ? <img src={gallery.images.length ? gallery.images[0].imageUrl : ''} alt=""/> : <p>No images</p>}
+            {gallery.images.length ? <img className="single-page--img" src={gallery.images.length ? gallery.images[0].imageUrl : ''} alt=""/> : <p>No images</p>}
             </Link>
             <Link to={`/authors/${gallery.user.id}`}>
               <p>{gallery.user.firstName} {gallery.user.lastName}</p>

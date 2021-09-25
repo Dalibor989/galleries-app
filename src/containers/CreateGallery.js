@@ -104,9 +104,9 @@ function CreateGallery() {
           <input type="url" className="form-control" id="imageUrl" name="imageUrl" placeholder="Image url" value={x.imageUrl} onChange={e => handleInputChange(e, i)} />
           <div className="btn-box">
             {inputList.length !== 1 && <button
-              className="mr10"
+              className="btn btn-primary"
               onClick={() => handleRemoveClick(i)}>Remove</button>}
-            {inputList.length - 1 === i && <button onClick={handleAddClick}>Add</button>}
+            {inputList.length - 1 === i && <button className="btn btn-primary" onClick={handleAddClick}>Add</button>}
           </div>
         </div>))}
         <button className="btn btn-primary">{id ? 'Edit' : 'Create'}</button>

@@ -67,9 +67,25 @@ function ViewGallery() {
       <SearchTerm />
       <h3>{gallery.title}</h3>
       
-      <p>{gallery.description}</p>
+      <p className="container">{gallery.description}</p>
       
-      {gallery.user ? <Link to={`/authors/${gallery.user.id}`}> <p>{gallery.user.firstName} {gallery.user.lastName}</p></Link> : ""}
+      <Carousel>
+      {gallery.images && gallery.images.length
+          ? gallery.images.map((image, index) => (
+              <Carousel.Item key={image.id}>
+                <a key={index} target="_blank" rel="noreferrer" href={image.imageUrl}>
+                  <img
+                    className="carousel-img"
+                    src={image.imageUrl}
+                    alt={image.imageUrl}
+                  />
+                </a>
+              </Carousel.Item>
+            ))
+          : "This post dosen't have image"}
+      </Carousel>
+      
+      {gallery.user ? <Link to={`/authors/${gallery.user.id}`}> <p style={{margin: "10px"}}>{gallery.user.firstName} {gallery.user.lastName}</p></Link> : ""}
 
       {activeUser && gallery.user ?
       <div>
@@ -82,31 +98,15 @@ function ViewGallery() {
         }
       </div> : ''}
       
-      <Carousel>
-      {gallery.images && gallery.images.length
-          ? gallery.images.map((image, index) => (
-              <Carousel.Item key={image.id}>
-                <a key={index} target="_blank" rel="noreferrer" href={image.imageUrl}>
-                  <img
-                    className="single-page--img"
-                    src={image.imageUrl}
-                    alt={image.imageUrl}
-                  />
-                </a>
-              </Carousel.Item>
-            ))
-          : "This post dosen't have image"}
-      </Carousel>
-
       <p><strong>Comments: </strong></p>
 
       {gallery.comments ? 
-      <ul>
+      <ul className="container">
         {gallery.comments.map((comment) => (
-          <li key={comment.id}>
+          <li key={comment.id} style={{border: "solid 1px black"}}>
+            <p><strong>Author: </strong>{comment.user.firstName} {comment.user.lastName}</p>
             <p>{comment.content}</p>
-            <p>{comment.user.firstName} {comment.user.lastName}</p>
-            <p>{dateFormat}</p>
+            <p><strong>Posted at: </strong> {dateFormat}</p>
             {activeUser ?
             <p>{activeUser.id === comment.user.id ?  <button onClick={() => handleDeleteComment(comment.id)}>Delete</button> : ''}</p> : ''}
           </li>

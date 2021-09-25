@@ -26,8 +26,8 @@ function Authors() {
               <Link to={`/galleries/${gallery.id}`}>
               <h3>{gallery.title}</h3>
               </Link>
-              <p>{gallery.description}</p>
-              {gallery.images && gallery.images.length ? <img src={gallery.images[0].imageUrl} alt="" /> : <p>You have no images in this gallery</p>}
+              <p className="container">{gallery.description}</p>
+              {gallery.images && gallery.images.length ? <img src={gallery.images[0].imageUrl} alt="" /> : <p><strong>You have no images in this gallery</strong></p>}
             </li>
           ))}
         </ul> : <p>You have no galleries</p>

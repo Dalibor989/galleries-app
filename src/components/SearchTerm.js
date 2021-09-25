@@ -9,7 +9,7 @@ function SearchTerm({handleCallback}) {
   }
 
 
-    const handleSearch = async () => {
+    const handleSearch = () => {
       handleCallback(searchTerm);
     };
 
